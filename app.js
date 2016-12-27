@@ -35,9 +35,9 @@ window.add(navigationButton);
 
 var buttonSpecs = [{
 	title : 'First',
-	icon : '/images/ic_parceiros_ativo.png',
-	active : '/images/ic_parceiros_ativo.png',
-	inactive : '/images/ic_parceiros_inativo.png',
+	icon : '/images/ic_first_active.png',
+	active : '/images/ic_first_active.png',
+	inactive : '/images/ic_first_inactive.png',
 	color : activeFontColor,
 	transform : Titanium.UI.create2DMatrix().scale(1, 1, 1.16, 1.16),
 	font : {
@@ -45,18 +45,18 @@ var buttonSpecs = [{
 	}
 }, {
 	title : 'Second',
-	icon : '/images/ic_promocoes_inativo.png',
-	active : '/images/ic_promocoes_ativo.png',
-	inactive : '/images/ic_promocoes_inativo.png',
+	icon : '/images/ic_second_inactive.png',
+	active : '/images/second_active.png',
+	inactive : '/images/ic_second_inactive.png',
 	color : activeFontColor,
 	font : {
 		fontSize : 12
 	}
 }, {
 	title : 'Third',
-	icon : '/images/ic_meus_cartoes_inativo.png',
-	active : '/images/ic_meus_cartoes_ativo.png',
-	inactive : '/images/ic_meus_cartoes_inativo.png',
+	icon : '/images/ic_third_inactive.png',
+	active : '/images/ic_third_active.png',
+	inactive : '/images/ic_third_inactive.png',
 	color : activeFontColor,
 	font : {
 		fontSize : 12
