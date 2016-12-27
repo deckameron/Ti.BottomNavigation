@@ -9,6 +9,7 @@ var view3 = Titanium.UI.createView({backgroundColor : '#E64A19'});
 
 var scrollableView = Titanium.UI.createScrollableView({
 	views : [view1, view2, view3],
+	bottom : 56,
 	scrollingEnabled : false,
 	zIndex : 1
 });
