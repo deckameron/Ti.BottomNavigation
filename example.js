@@ -104,6 +104,7 @@ for (var i = 0; i < buttonSpecs.length; i++) {
 		color : buttonSpecs[i].color,
 		font : buttonSpecs[i].font,
 		touchEnabled : false,
+		opacity : i == 0 ? 1 : 0.6,
 		bottom : 10,
 		zIndex : 2
 	});
