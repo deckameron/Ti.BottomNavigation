@@ -34,7 +34,7 @@ var bottomNavigation = BottomNavigation.create({
 window.add(bottomNavigation);
 
 bottomNavigation.addEventListener('click', function(e){
-	scrollableView.scrollToView(e.index);
+	//TODO
 });
 ```
 
