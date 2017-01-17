@@ -28,6 +28,7 @@ var bottomNavigation = BottomNavigation.create({
 	buttons : buttonsSpecs,
 	activeButtonIndex : 0,
 	activeFontColor : "#FFFFFF",
+	backgroundColor : '#00796B',
 	backgroundRipple : true,
 	hideInactiveButtonTitle : true
 });
