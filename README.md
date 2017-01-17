@@ -6,20 +6,20 @@ Material Design Bottom Navigation Controller for Appcelerator Titanium
 var buttonsSpecs = [
 	{
 		title : 'First',
-		activeIcon : '/images/ic_parceiros_ativo.png',
-		inactiveIcon : '/images/ic_parceiros_inativo.png',
+		activeIcon : '/images/ic_first_active.png',
+		inactiveIcon : '/images/ic_first_inactive.png',
 		backgroundRippeColor : '#009688',
 	},
 	{
 		title : 'Second',
-		activeIcon : '/images/ic_promocoes_ativo.png',
-		inactiveIcon : '/images/ic_promocoes_inativo.png',
+		activeIcon : '/images/ic_second_active.png',
+		inactiveIcon : '/images/ic_second_inactive.png',
 		backgroundRippeColor : '#3F51B5',
 	},
 	{
 		title : 'Third',
-		activeIcon : '/images/ic_meus_cartoes_ativo.png',
-		inactiveIcon : '/images/ic_meus_cartoes_inativo.png',
+		activeIcon : '/images/ic_third_active.png',
+		inactiveIcon : '/images/ic_third_inactive.png',
 		backgroundRippeColor : '#795548',
 	}
 ]; 
