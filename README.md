@@ -1,6 +1,9 @@
 # Ti.BottomNavigation
 Material Design Bottom Navigation Controller for Appcelerator Titanium
 
+## Work in progress
+I am still working on it. Feel free to add anything.
+
 ### Usage
 ```javascript
 var buttonsSpecs = [
