@@ -99,10 +99,10 @@ exports.create = function(params){
 	
 		var label = Titanium.UI.createLabel({
 			text : buttonsSpecs[i].title,
-			color : params.activeFontColor,
+			color : i == 0 ? params.activeFontColor : params.inactiveFontColor || params.activeFontColor,
 			font : buttonsSpecs[i].font,
 			touchEnabled : false,
-			opacity : i == 0 ? 1 : InactivelabelOpacity,
+			opacity : params.inactiveFontColor ? 1 : i == 0 ? 1 : InactivelabelOpacity,
 			bottom : 10,
 			zIndex : 2
 		});
@@ -158,34 +158,63 @@ exports.create = function(params){
 	}
 	
 	//DO WHATEVER YOU NEED HERE------
-	bottomNavigationWrapper.fireEvent('click', {index : tab});
+	bottomNavigationWrapper.fireEvent('clicked', {
+		index : tab
+	});
 	//-------------------------------
 
-	//ACTIVE TAB
+	//ACTIVE TAB ====================================================================
+	//button
 	buttons[tab].icon.setImage(buttonsSpecs[tab].activeIcon);
 	buttons[tab].icon.animate({
 		top : activeIconTop,
 		duration : animationDuration
 	});
-	
-	buttons[tab].label.animate({
-		transform : Titanium.UI.create2DMatrix().scale(1, 1, 1.16, 1.16),
-		opacity : 1,
-		duration : LabelAnimationDuration
-	});
 
-	//INACTIVE TAB
+	//title
+	var activeLabelAnimationParams = {
+		transform : Titanium.UI.create2DMatrix().scale(1, 1, 1.16, 1.16),
+		duration : LabelAnimationDuration
+	};
+
+	if(params.inactiveFontColor){
+		if(Titanium.Platform.osname == 'android'){
+			buttons[tab].label.setColor(params.activeFontColor);
+		}else{
+			activeLabelAnimationParams['color'] = params.activeFontColor;
+		}
+	}else{
+		activeLabelAnimationParams['opacity'] = 1;
+	}
+
+	buttons[tab].label.animate(activeLabelAnimationParams);
+	//=================================================================================
+	//INACTIVE TAB ====================================================================
+	//button
 	buttons[lastVisibleView].icon.setImage(buttonsSpecs[lastVisibleView].inactiveIcon);
 	buttons[lastVisibleView].icon.animate({
 		top : inactiveIconTop,
 		duration : animationDuration
 	});
-	
-	buttons[lastVisibleView].label.animate({
+
+	//title
+	var inactiveLabelAnimationParams = {
 		transform : Titanium.UI.create2DMatrix().scale(1.16, 1.16, 1, 1),
-		opacity : InactivelabelOpacity,
 		duration : LabelAnimationDuration
-	});
+	};
+
+	if(params.inactiveFontColor){
+		if(Titanium.Platform.osname == 'android'){
+			buttons[lastVisibleView].label.setColor(params.inactiveFontColor);
+		}else{
+			inactiveLabelAnimationParams['color'] = params.inactiveFontColor;
+		}
+	}else{
+		inactiveLabelAnimationParams['opacity'] = InactivelabelOpacity;
+	}
+
+	buttons[lastVisibleView].label.animate(inactiveLabelAnimationParams);
+	//=================================================================================
 	
 	lastVisibleView = tab;
 }
