@@ -124,6 +124,7 @@ exports.create = function(params){
 			source : buttons[tab].rippleView,
 			x : buttons[tab].rippleView.width / 2,
 			y : buttons[tab].rippleView.height / 2,
+			rippleColor : params.rippleColor,
 			dp : true
 		});
 	}else{
@@ -133,6 +134,7 @@ exports.create = function(params){
 			source : bottomNavigationWrapper,
 			x : buttons[tab].wrapper.rect.x + (buttons[tab].wrapper.rect.width / 2),
 			y : buttons[tab].wrapper.rect.y + (buttons[tab].wrapper.rect.height / 2),
+			rippleColor : params.rippleColor,
 			dp : true
 		});
 	}
@@ -237,7 +239,7 @@ function Ripple(e) {
 	var maxHeightWidth = Math.max(e.source.rect.width, e.source.rect.height);
 	var minHeightWidth = Math.min(e.source.rect.width, e.source.rect.height);
 	
-	var backgroundColor = '#FFF';
+	var backgroundColor = e.rippleColor || '#FFF';
 	var maxOpacity = 0.3;
 	var minOpacity = 0.0;
 	
