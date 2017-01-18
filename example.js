@@ -41,13 +41,15 @@ var bottomNavigation = BottomNavigation.create({
 	buttons : buttonsSpecs,
 	activeButtonIndex : 0,
 	activeFontColor : "#FFFFFF",
+	//inactiveFontColor : "#A8A8A8",
+	//rippleColor : "#4DB6AC",
 	backgroundColor : '#00796B',
 	backgroundRipple : true,
 	hideInactiveButtonTitle : true
 });
 window.add(bottomNavigation);
 
-bottomNavigation.addEventListener('click', function(e){
+bottomNavigation.addEventListener('clicked', function(e){
 	scrollableView.scrollToView(e.index);
 });
 
