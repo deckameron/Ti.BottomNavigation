@@ -134,7 +134,6 @@ exports.create = function(params){
 			source : bottomNavigationWrapper,
 			x : buttons[tab].wrapper.rect.x + (buttons[tab].wrapper.rect.width / 2),
 			y : buttons[tab].wrapper.rect.y + (buttons[tab].wrapper.rect.height / 2),
-			rippleColor : params.rippleColor,
 			dp : true
 		});
 	}
