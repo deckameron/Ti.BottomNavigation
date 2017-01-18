@@ -28,6 +28,8 @@ var bottomNavigation = BottomNavigation.create({
 	buttons : buttonsSpecs,
 	activeButtonIndex : 0,
 	activeFontColor : "#FFFFFF",
+	//inactiveFontColor : "#A8A8A8", //Only used when hideInactiveButtonTitle = false
+	//rippleColor : "#4DB6AC", //Only used when backgroundRipple = false
 	backgroundColor : '#00796B',
 	backgroundRipple : true,
 	hideInactiveButtonTitle : true
