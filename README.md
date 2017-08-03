@@ -36,8 +36,8 @@ var bottomNavigation = BottomNavigation.create({
         backgroundRipple : false,
         rippleColor : "#FFFFFF", //Only used when backgroundRipple = false
         
-        hideInactiveButtonTitle : true,
-        //inactiveFontColor : "#99FFFFFF", //Only used when hideInactiveButtonTitle = false
+        hideInactiveButtonTitle : false,
+        inactiveFontColor : "#99FFFFFF", //Only used when hideInactiveButtonTitle = false
         
         canExpandTabOnSelect : true
 });
