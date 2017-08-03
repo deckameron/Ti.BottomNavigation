@@ -29,18 +29,22 @@ var buttonsSpecs = [
 
 var bottomNavigation = BottomNavigation.create({
 	buttons : buttonsSpecs,
-	activeButtonIndex : 0,
+	activeTab : 1,
 	activeFontColor : "#FFFFFF",
-	//inactiveFontColor : "#A8A8A8", //Only used when hideInactiveButtonTitle = false
-	//rippleColor : "#4DB6AC", //Only used when backgroundRipple = false
 	backgroundColor : '#00796B',
-	backgroundRipple : true,
-	hideInactiveButtonTitle : true
+	
+        backgroundRipple : false,
+        rippleColor : "#FFFFFF", //Only used when backgroundRipple = false
+        
+        hideInactiveButtonTitle : true,
+        //inactiveFontColor : "#99FFFFFF", //Only used when hideInactiveButtonTitle = false
+        
+        canExpandTabOnSelect : true
 });
 window.add(bottomNavigation);
 
 bottomNavigation.addEventListener('click', function(e){
-	//TODO
+	Titanium.API.info(e.index);
 });
 ```
 
