@@ -135,6 +135,13 @@ exports.create = function(params) {
                 y : buttons[tab].wrapper.rect.y + (buttons[tab].wrapper.rect.height / 2),
                 dp : true
             });
+            
+            if(buttonsSpecs[tab].backgroundColor){
+                bottomNavigationWrapper.animate({
+                    duration : 150,
+                    backgroundColor : buttons[tab].backgroundColor
+                });
+            }
         }
 
         if (tab == lastVisibleView) {
