@@ -6,6 +6,9 @@ I am still working on it. Feel free to add anything.
 
 ### Usage
 ```javascript
+
+var BottomNavigation = require('/BottomNavigation');
+
 var buttonsSpecs = [
 	{
 		title : 'First',
