@@ -5,6 +5,17 @@ exports.create = function(params) {
     var activeTab = params.activeTab || 0;
     var lastVisibleView = activeTab;
     var buttonsSpecs = params.buttons || [];
+    
+    var hideInactiveButtonTitle = params.hideInactiveButtonTitle;
+
+    if(buttonsSpecs.length > 4){
+        hideInactiveButtonTitle = true;
+        Titanium.API.warn("Bottom Navigation cannot show inactive button titles with more then 4 buttons");
+    }else if(buttonsSpecs.length < 4){
+        hideInactiveButtonTitle = false;
+        Titanium.API.warn("Bottom Navigation cannot hide inactive button titles with less then 4 buttons");
+    } 
+    
     var buttons = [];
     var activeIconTop = 2;
     var inactiveIconTop = params.hideInactiveButtonTitle ? 12 : 4;
@@ -13,6 +24,7 @@ exports.create = function(params) {
     var InactivelabelOpacity = params.hideInactiveButtonTitle ? 0 : 0.6;
     var screenWidth = Titanium.Platform.displayCaps.platformWidth / Titanium.Platform.displayCaps.logicalDensityFactor;
     var buttonWidth = screenWidth / buttonsSpecs.length;
+    var inactiveFontColor = params.hideInactiveButtonTitle ? null : params.inactiveFontColor;
 
     Titanium.API.info('screenWidth : ' + screenWidth);
     Titanium.API.info('buttonWidth : ' + buttonWidth);
@@ -67,23 +79,28 @@ exports.create = function(params) {
         bottomNavigation.add(wrapper);
 
         var rippleView = Titanium.UI.createView({
-            height : 110,
-            width : 110,
-            borderRadius : 55,
-            touchEnabled : false,
+            height : buttonsSpecs.length > 3 ? 105 : 110,
+            width : buttonsSpecs.length > 3 ? 105 : 110,
+            borderRadius : buttonsSpecs.length > 3 ? 52 :  55,
             index : i,
+            backgroundColor : params.backgroundColor,
+            bubbleParent : true,
+            touchFeedback : true,
+            touchFeedbackColor : "#75FFFFFF",
             zIndex : 1
         });
         wrapper.add(rippleView);
 
-        wrapper.addEventListener('click', function(e) {
+        rippleView.addEventListener('click', function(e) {
             if (canChangeTab) {
+                
                 ChangeTab(e.source.index);
                 canChangeTab = false;
 
                 setTimeout(function() {
                     canChangeTab = true;
                 }, 400);
+                
             } else {
                 Titanium.API.warn("You can't change the tabs right now!");
             }
@@ -99,10 +116,10 @@ exports.create = function(params) {
 
         var label = Titanium.UI.createLabel({
             text : buttonsSpecs[i].title,
-            color : i == activeTab ? params.activeFontColor : params.inactiveFontColor || params.activeFontColor,
+            color : i == activeTab ? params.activeFontColor : inactiveFontColor || params.activeFontColor,
             font : buttonsSpecs[i].font,
             touchEnabled : false,
-            opacity : params.inactiveFontColor ? 1 : i == activeTab ? 1 : InactivelabelOpacity,
+            opacity : inactiveFontColor ? 1 : i == activeTab ? 1 : InactivelabelOpacity,
             bottom : 10,
             zIndex : 2
         });
@@ -111,31 +128,12 @@ exports.create = function(params) {
         buttons[i] = {
             icon : icon,
             label : label,
-            rippleView : rippleView,
             wrapper : wrapper,
             backgroundColor : buttonsSpecs[i].backgroundRippeColor
         };
     }
 
     function ChangeTab(tab) {
-        if (!params.backgroundRipple) {
-            Ripple({
-                source : buttons[tab].rippleView,
-                x : buttons[tab].rippleView.width / 2,
-                y : buttons[tab].rippleView.height / 2,
-                rippleColor : params.rippleColor,
-                dp : true
-            });
-        } else {
-            Ripple({
-                backgroundColor : buttons[tab].backgroundColor,
-                backgroundRipple : true,
-                source : bottomNavigationWrapper,
-                x : buttons[tab].wrapper.rect.x + (buttons[tab].wrapper.rect.width / 2),
-                y : buttons[tab].wrapper.rect.y + (buttons[tab].wrapper.rect.height / 2),
-                dp : true
-            });
-        }
 
         if (tab == lastVisibleView) {
             return;
@@ -184,7 +182,7 @@ exports.create = function(params) {
             duration : LabelAnimationDuration
         };
 
-        if (params.inactiveFontColor) {
+        if (inactiveFontColor) {
             if (Titanium.Platform.osname == 'android') {
                 buttons[tab].label.setColor(params.activeFontColor);
             } else {
@@ -210,11 +208,11 @@ exports.create = function(params) {
             duration : LabelAnimationDuration
         };
 
-        if (params.inactiveFontColor) {
+        if (inactiveFontColor) {
             if (Titanium.Platform.osname == 'android') {
-                buttons[lastVisibleView].label.setColor(params.inactiveFontColor);
+                buttons[lastVisibleView].label.setColor(inactiveFontColor);
             } else {
-                inactiveLabelAnimationParams['color'] = params.inactiveFontColor;
+                inactiveLabelAnimationParams['color'] = inactiveFontColor;
             }
         } else {
             inactiveLabelAnimationParams['opacity'] = InactivelabelOpacity;
@@ -227,110 +225,4 @@ exports.create = function(params) {
     }
 
     return bottomNavigationWrapper;
-};
-
-function Ripple(e) {
-
-    if (e && e.source) {
-        e.source.touchEnabled = false;
-    }
-
-    var OS_IOS = Titanium.Platform.osname != 'android';
-    var _x = (OS_IOS || e.dp) ? e.x : (e.x / Ti.Platform.displayCaps.logicalDensityFactor);
-    var _y = (OS_IOS || e.dp) ? e.y : (e.y / Ti.Platform.displayCaps.logicalDensityFactor);
-
-    // Max & Min value from Width and Height of our clicked view.
-    // This way we can make the circle big enough to fit the view.
-    var maxHeightWidth = Math.max(e.source.rect.width, e.source.rect.height);
-    var minHeightWidth = Math.min(e.source.rect.width, e.source.rect.height);
-
-    var backgroundColor = e.rippleColor || '#FFF';
-    var maxOpacity = 0.3;
-    var minOpacity = 0.0;
-
-    if (e.backgroundColor) {
-        backgroundColor = e.backgroundColor;
-        maxOpacity = 1;
-        minOpacity = maxOpacity;
-    }
-
-    // Our circle that will be scaled up using 2dMartix.
-    e.source.ripple = Titanium.UI.createView({
-        borderRadius : minHeightWidth / 2,
-        height : minHeightWidth,
-        width : minHeightWidth,
-        center : {
-            x : _x,
-            y : _y
-        },
-        backgroundColor : backgroundColor,
-        zIndex : 1,
-        opacity : minOpacity,
-        touchEnabled : false
-    });
-    // Add the ripple view inside the clicked view
-    if (e && e.source) {
-        e.source.add(e.source.ripple);
-    }
-
-    // Use chainAnimate to sequence the animation steps.
-    // We'll position the view at the center of the click position, by using the center property).
-    e.source.ripple.anim_1 = Titanium.UI.createAnimation({
-        center : {
-            x : _x,
-            y : _y
-        },
-        duration : 0,
-        opacity : maxOpacity,
-        transform : Ti.UI.create2DMatrix().scale(20 / maxHeightWidth)
-    });
-
-    e.source.ripple.anim_1.addEventListener('complete', function() {
-        if (e.source.ripple && e.source.ripple.anim_2) {
-            Titanium.API.info('Completed - Animation 1');
-            e.source.ripple.animate(e.source.ripple.anim_2);
-        }
-    });
-
-    e.source.ripple.anim_2 = Titanium.UI.createAnimation({
-        curve : Ti.UI.ANIMATION_CURVE_EASE_IN,
-        duration : 250,
-        opacity : minOpacity,
-        transform : Ti.UI.create2DMatrix().scale((maxHeightWidth * 2) / minHeightWidth)
-    });
-
-    e.source.ripple.anim_2.addEventListener('complete', function() {
-        if (e.source.ripple && e.source.ripple.anim_3) {
-            Titanium.API.info('Completed - Animation 2');
-            try {
-                e.source.ripple.animate(e.source.ripple.anim_3);
-            } catch(e) {
-                Titanium.API.error(e);
-            }
-        }
-    });
-
-    e.source.ripple.anim_3 = Titanium.UI.createAnimation({
-        opacity : minOpacity,
-        duration : 100,
-        curve : Ti.UI.ANIMATION_CURVE_LINEAR
-    });
-
-    e.source.ripple.anim_3.addEventListener('complete', function() {
-        if (e && e.source) {
-            Titanium.API.info('Completed - Animation 3');
-
-            if (e.backgroundRipple && e.backgroundColor) {
-                e.source.setBackgroundColor(e.backgroundColor);
-            }
-
-            e.source.touchEnabled = true;
-            e.source.remove(e.source.ripple);
-            e.source.ripple = null;
-        }
-    });
-
-    if (e.source.ripple && e.source.ripple.anim_1) {
-        e.source.ripple.animate(e.source.ripple.anim_1);
-    }
 };
