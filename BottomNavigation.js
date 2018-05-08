@@ -86,7 +86,7 @@ exports.create = function(params) {
             backgroundColor : params.backgroundColor,
             bubbleParent : true,
             touchFeedback : true,
-            touchFeedbackColor : "#75FFFFFF",
+            touchFeedbackColor : params.rippleColor,
             zIndex : 1
         });
         wrapper.add(rippleView);
