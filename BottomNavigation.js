@@ -39,17 +39,6 @@ exports.create = function(params) {
     var total = ((buttonsSpecs.length - 1) * menor) + maior;
     Titanium.API.info('total : ' + total);
 
-    for (var i = 0; i < buttonsSpecs.length; i++) {
-
-        buttonsSpecs[i]['font'] = {
-            fontSize : 12
-        };
-
-        if (i == activeTab) {
-            buttonsSpecs[i]['transform'] = Titanium.UI.create2DMatrix().scale(1, 1, 1.16, 1.16);
-        }
-    }
-
     var bottomNavigationWrapper = Titanium.UI.createView({
         height : 56,
         elevation : 12,
@@ -107,7 +96,7 @@ exports.create = function(params) {
         });
 
         var icon = Titanium.UI.createImageView({
-            image : params.activeTab == i ? buttonsSpecs[i].activeIcon : buttonsSpecs[i].inactiveIcon,
+            image : i == activeTab ? buttonsSpecs[i].activeIcon : buttonsSpecs[i].inactiveIcon,
             touchEnabled : false,
             top : i == activeTab ? activeIconTop : inactiveIconTop,
             zIndex : 2
@@ -116,8 +105,11 @@ exports.create = function(params) {
 
         var label = Titanium.UI.createLabel({
             text : buttonsSpecs[i].title,
+            transform : i == activeTab ? Titanium.UI.create2DMatrix().scale(1, 1, 1.16, 1.16) : undefined,
             color : i == activeTab ? params.activeFontColor : inactiveFontColor || params.activeFontColor,
-            font : buttonsSpecs[i].font,
+            font : {
+                fontSize : 12
+            },
             touchEnabled : false,
             opacity : inactiveFontColor ? 1 : i == activeTab ? 1 : InactivelabelOpacity,
             bottom : 10,
